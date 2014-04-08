@@ -6,16 +6,16 @@ def compare_strings(text)
   #property :forms,    String, :length => 256
 
   myString = text.to_s
-  teString = String.new(myString)
+  testString = String.new(myString)
 
   myString.each_char {|c| print c, '' }
 
-  if myString.nil puts "Your " + parameter + " needs to be added in the header with data "
+    if myString.nil puts "Your " + text + " needs to be added in the header with data "
 
-   while !(myString.('\Z')) do myString.sub(/, /, 1)  
+      while !(myString.('\Z')) do myString.sub(/, /, 1)  
 
-	puts myString  
+	  puts myString  
    
-    end	
-  end
-end	
+      end	
+    end
+  end	
