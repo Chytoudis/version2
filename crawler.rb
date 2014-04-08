@@ -1,13 +1,14 @@
-  
+  #!/usr/bin/env ruby
 
-    #!/usr/bin/env ruby
-     
+    #gems required 
     require 'anemone'
     require 'nokogiri'
     require 'net/http'
     require 'data_mapper'
     require 'dm-sqlite-adapter'
-     
+    
+
+    #entiry created by dataMapper 
     class Url
       include DataMapper::Resource
      
@@ -46,6 +47,7 @@
       response
     end
      
+    # Checks if there are keywords, numerates them and shows them in a list 
     def show_keywords (keywords)
       unless keywords.nil?
         puts "Your Keywords are:"
@@ -54,7 +56,18 @@
         end
       end
     end
-     
+    
+    # Checks if there is Description meta data in Header
+    def show_description (description)
+      unless description.nil?
+        puts "Your description is:"
+        description.split("\s").each do |i|
+          puts "description: #{i}"
+        end
+      end
+    end
+
+    # Checks if keywords exist in the url of the site   
     def url_contains_keywords (url, keywords)
       unless keywords.nil?
         arr = keywords.split(',')
@@ -69,7 +82,24 @@
         false
       end
     end
-     
+   
+    # Checks if keywords exist in Description
+    def description_contains_keywords (description, keywords)
+      unless keywords.nil?
+        arr = keywords.split("\s")
+        arr.each do |keyword|
+          if description.downcase.include? keyword.downcase
+            puts "Found matching keyword: #{keyword}"
+            return true
+          end
+        end
+       
+        puts "Didn't find any keywords in #{description}."
+        false
+      end
+    end
+
+    #takes site name as an argument 
     raise "missing url" unless ARGV.count == 1
      
     site = ARGV[0]
@@ -81,7 +111,8 @@
      
     DataMapper.setup(:default, "sqlite3://#{File.join(Dir.pwd, db_name)}")
     DataMapper.finalize.auto_upgrade!
-     
+    
+    #for all urls found  
     puts "Already found URLs for #{site}"
     Url.all.each do |url|
       puts "#{url}"
@@ -130,6 +161,8 @@
          
           show_keywords(u.keywords)
           url_contains_keywords(u.url, u.keywords)
+          show_description(u.description)
+          description_contains_keywords(u.description, u.keywords)
         end
       end
     end
