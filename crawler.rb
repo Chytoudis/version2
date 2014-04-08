@@ -103,10 +103,7 @@
             u.errors.each do |e|
               puts " * #{e}"
             end
-          end
-
-            if u.keyworods 
-        
+          end    
         end
       end
     end
