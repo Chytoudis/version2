@@ -182,9 +182,9 @@ Anemone.crawl("#{site}", :discard_page_bodies => true, depth_limit: 2) do |anemo
       show_description(u.description)
       description_contains_keywords(u.description, u.keywords)
       seo_variable1 = description_contains_keywords(u.description, u.keywords)
-      seo_variable2 = url_contains_keywords(u.url, u.keywords)      
-      needs_SEO(description_contains_keywords, url_contains_keywords) 
-        if needs_SEO == false
+      seo_variable2 = url_contains_keywords(u.url, u.keywords)   
+      needs_seo = needs_SEO(seo_variable1, seo_variable2)       
+        unless needs_SEO == true
           puts "Your site needs SEO improvements"  
           else puts "In your site basic SEO features are already implemented : description, keywords " 
         end
