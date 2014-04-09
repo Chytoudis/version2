@@ -84,7 +84,7 @@ end
  
 # Checks if keywords exist in Description
 def description_contains_keywords (description, keywords)
-  unless keywords.nil?
+  unless keywords.nil? && description.nil?
     arr = keywords.split(',')
     arr.each do |keyword|
       if description.downcase.include? keyword.downcase
@@ -98,13 +98,13 @@ def description_contains_keywords (description, keywords)
 end
 
 # Checks if site needs seo improvements
-#def needs_SEO (description_contains_keywords , url_contains_keywords)
-#  if description_contains_keywords==true && url_contains_keywords==true
-#    return true
-#  else
-#    return false
-#  end  
-#end
+def needs_SEO (description_contains_keywords , url_contains_keywords)
+  if description_contains_keywords==true && url_contains_keywords==true
+    return true
+  else
+    return false
+  end  
+end
 
 
  
@@ -181,7 +181,12 @@ Anemone.crawl("#{site}", :discard_page_bodies => true, depth_limit: 2) do |anemo
       url_contains_keywords(u.url, u.keywords)
       show_description(u.description)
       description_contains_keywords(u.description, u.keywords)
-      #needs_SEO(description_contains_keywords, url_contains_keywords)    
+      seo_variable1 = description_contains_keywords(u.description, u.keywords)
+      seo_variable2 = url_contains_keywords(u.url, u.keywords)
+      needs_SEO(seo_variable1, seo_variable2) 
+        unless needs_SEO == false
+          puts "Your site needs SEO improvements"   
+        end
       end
     end
   
